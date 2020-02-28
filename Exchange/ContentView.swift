@@ -9,8 +9,36 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var selected = 0
+    @EnvironmentObject var shared: SharedState
+    var titles = ["Order Book", "Market History"]
     var body: some View {
-        Text("Hello, World!")
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                ForEach(0 ..< titles.count) { index in
+                    Spacer()
+                    if index == self.selected {
+                        Button(self.titles[index]) {
+                            self.selected = index
+                        }.background(Color.black).foregroundColor(.yellow).padding().overlay(Rectangle().fill(Color.yellow).frame(width: 40, height: 2).offset(x: 0, y: 20))
+                    } else {
+                        Button(self.titles[index]) {
+                            self.selected = index
+                        }.background(Color.black).foregroundColor(.gray).padding()
+                    }
+                    Spacer()
+                }
+            }
+            if selected == 0 {
+                OrderList().transition(.slide)
+            }
+            else {
+                MarketList().transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+            }
+            
+            
+        }.frame(maxWidth: .infinity).background(Color.black)
+    
     }
 }
 

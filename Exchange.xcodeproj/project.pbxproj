@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD6F047224094F2600964118 /* SharedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6F047124094F2600964118 /* SharedState.swift */; };
+		AD6F04742409640B00964118 /* MarketList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6F04732409640B00964118 /* MarketList.swift */; };
+		AD6F0476240976AC00964118 /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6F0475240976AC00964118 /* Popover.swift */; };
 		ADBF63152407DE8900ACB17A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF63142407DE8900ACB17A /* AppDelegate.swift */; };
 		ADBF63172407DE8900ACB17A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF63162407DE8900ACB17A /* SceneDelegate.swift */; };
 		ADBF63192407DE8900ACB17A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF63182407DE8900ACB17A /* ContentView.swift */; };
@@ -14,6 +17,9 @@
 		ADBF631E2407DE8F00ACB17A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADBF631D2407DE8F00ACB17A /* Preview Assets.xcassets */; };
 		ADBF63212407DE8F00ACB17A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADBF631F2407DE8F00ACB17A /* LaunchScreen.storyboard */; };
 		ADBF632C2407DE8F00ACB17A /* ExchangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF632B2407DE8F00ACB17A /* ExchangeTests.swift */; };
+		ADBF633824088E1A00ACB17A /* SegTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF633724088E1A00ACB17A /* SegTab.swift */; };
+		ADBF633A2408A90000ACB17A /* OrderList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF63392408A90000ACB17A /* OrderList.swift */; };
+		ADBF633C2408A9B500ACB17A /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF633B2408A9B500ACB17A /* Header.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +33,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AD6F047124094F2600964118 /* SharedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedState.swift; sourceTree = "<group>"; };
+		AD6F04732409640B00964118 /* MarketList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketList.swift; sourceTree = "<group>"; };
+		AD6F0475240976AC00964118 /* Popover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
 		ADBF63112407DE8900ACB17A /* Exchange.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Exchange.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADBF63142407DE8900ACB17A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADBF63162407DE8900ACB17A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +47,9 @@
 		ADBF63272407DE8F00ACB17A /* ExchangeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExchangeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADBF632B2407DE8F00ACB17A /* ExchangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeTests.swift; sourceTree = "<group>"; };
 		ADBF632D2407DE8F00ACB17A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADBF633724088E1A00ACB17A /* SegTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegTab.swift; sourceTree = "<group>"; };
+		ADBF63392408A90000ACB17A /* OrderList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderList.swift; sourceTree = "<group>"; };
+		ADBF633B2408A9B500ACB17A /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +70,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD6F047024094EE300964118 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				AD6F047124094F2600964118 /* SharedState.swift */,
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
 		ADBF63082407DE8900ACB17A = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +99,8 @@
 		ADBF63132407DE8900ACB17A /* Exchange */ = {
 			isa = PBXGroup;
 			children = (
+				AD6F047024094EE300964118 /* Environment */,
+				ADBF633624088BEC00ACB17A /* Views */,
 				ADBF63142407DE8900ACB17A /* AppDelegate.swift */,
 				ADBF63162407DE8900ACB17A /* SceneDelegate.swift */,
 				ADBF63182407DE8900ACB17A /* ContentView.swift */,
@@ -105,6 +127,18 @@
 				ADBF632D2407DE8F00ACB17A /* Info.plist */,
 			);
 			path = ExchangeTests;
+			sourceTree = "<group>";
+		};
+		ADBF633624088BEC00ACB17A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ADBF633724088E1A00ACB17A /* SegTab.swift */,
+				ADBF63392408A90000ACB17A /* OrderList.swift */,
+				ADBF633B2408A9B500ACB17A /* Header.swift */,
+				AD6F04732409640B00964118 /* MarketList.swift */,
+				AD6F0475240976AC00964118 /* Popover.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,7 +243,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADBF63152407DE8900ACB17A /* AppDelegate.swift in Sources */,
+				AD6F0476240976AC00964118 /* Popover.swift in Sources */,
+				ADBF633824088E1A00ACB17A /* SegTab.swift in Sources */,
+				ADBF633A2408A90000ACB17A /* OrderList.swift in Sources */,
+				AD6F04742409640B00964118 /* MarketList.swift in Sources */,
 				ADBF63172407DE8900ACB17A /* SceneDelegate.swift in Sources */,
+				AD6F047224094F2600964118 /* SharedState.swift in Sources */,
+				ADBF633C2408A9B500ACB17A /* Header.swift in Sources */,
 				ADBF63192407DE8900ACB17A /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,7 +414,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = sg1.Exchange;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -394,7 +434,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = sg1.Exchange;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
