@@ -208,9 +208,16 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 @class NSStream;
 
-SWIFT_CLASS("_TtC10Starscream19FoundationTransport")
-@interface FoundationTransport : NSObject <NSStreamDelegate>
+SWIFT_CLASS("_TtC10Starscream16FoundationStream")
+@interface FoundationStream : NSObject <NSStreamDelegate>
+/// Delegate for the stream methods. Processes incoming bytes
 - (void)stream:(NSStream * _Nonnull)aStream handleEvent:(NSStreamEvent)eventCode;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC10Starscream9WebSocket")
+@interface WebSocket : NSObject <NSStreamDelegate>
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -425,9 +432,16 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 @class NSStream;
 
-SWIFT_CLASS("_TtC10Starscream19FoundationTransport")
-@interface FoundationTransport : NSObject <NSStreamDelegate>
+SWIFT_CLASS("_TtC10Starscream16FoundationStream")
+@interface FoundationStream : NSObject <NSStreamDelegate>
+/// Delegate for the stream methods. Processes incoming bytes
 - (void)stream:(NSStream * _Nonnull)aStream handleEvent:(NSStreamEvent)eventCode;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC10Starscream9WebSocket")
+@interface WebSocket : NSObject <NSStreamDelegate>
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -646,9 +660,16 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 @class NSStream;
 
-SWIFT_CLASS("_TtC10Starscream19FoundationTransport")
-@interface FoundationTransport : NSObject <NSStreamDelegate>
+SWIFT_CLASS("_TtC10Starscream16FoundationStream")
+@interface FoundationStream : NSObject <NSStreamDelegate>
+/// Delegate for the stream methods. Processes incoming bytes
 - (void)stream:(NSStream * _Nonnull)aStream handleEvent:(NSStreamEvent)eventCode;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC10Starscream9WebSocket")
+@interface WebSocket : NSObject <NSStreamDelegate>
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -863,9 +884,16 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 @class NSStream;
 
-SWIFT_CLASS("_TtC10Starscream19FoundationTransport")
-@interface FoundationTransport : NSObject <NSStreamDelegate>
+SWIFT_CLASS("_TtC10Starscream16FoundationStream")
+@interface FoundationStream : NSObject <NSStreamDelegate>
+/// Delegate for the stream methods. Processes incoming bytes
 - (void)stream:(NSStream * _Nonnull)aStream handleEvent:(NSStreamEvent)eventCode;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC10Starscream9WebSocket")
+@interface WebSocket : NSObject <NSStreamDelegate>
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Header: View {
     @EnvironmentObject var shared: SharedState
+    @EnvironmentObject var ws: Websocket
     var triangle: some View {
         Path { path in
             path.move(to: CGPoint(x: 0, y: 0))
@@ -28,11 +29,13 @@ struct Header: View {
                 Spacer()
                 VStack(alignment: .trailing) {
                     HStack(spacing: 5) {
-                        Button("Test") {
-                            self.shared.isPopover.toggle()
+                        if ws.decimalPlaces != nil {
+                            Button(String(1 / ws.multiplier)) {
+                                self.shared.isPopover.toggle()
+                            }.foregroundColor(.white)
+                            triangle
                         }
-                        triangle
-                    }.padding()
+                    }.background(Color.pickerGray).padding()
                 }
             }
         }
