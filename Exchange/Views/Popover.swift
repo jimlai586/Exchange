@@ -17,16 +17,12 @@ struct Popover: View {
     var popHeight: CGFloat {
         160
     }
-    var popoverShape: some View {
+    var popTriangle: some View {
         Path { path in
-            path.move(to: CGPoint(x: 0, y: 10))
-            path.addLine(to: CGPoint(x: popWidth/2 - 10, y: 10))
-            path.addLine(to: CGPoint(x: popWidth/2, y: 0))
-            path.addLine(to: CGPoint(x: popWidth/2 + 10, y: 10))
-            path.addLine(to: CGPoint(x: popWidth, y: 10))
-            path.addLine(to: CGPoint(x: popWidth, y: popHeight))
-            path.addLine(to: CGPoint(x: 0, y: popHeight))
-        }.fill(Color.pickerGray).frame(width: popWidth, height: popHeight)
+            path.move(to: CGPoint(x: 5, y: 0))
+            path.addLine(to: CGPoint(x: 0, y: 10))
+            path.addLine(to: CGPoint(x: 10, y: 10))
+        }.fill(Color.pickerGray).frame(width: 10, height: 10)
     }
     func onSelected(_ index: Int) {
         ws.onDecimalPlaceChange(index)
@@ -45,7 +41,8 @@ struct Popover: View {
                     }.foregroundColor(.gray)
                 }
             }
-        }.background(popoverShape).frame(width: popWidth, height: popHeight).clipShape(RoundedRectangle(cornerRadius: 5))
+        }.frame(width: popWidth, height: popHeight).background(RoundedRectangle(cornerRadius: 10).fill(Color.pickerGray))
+        .overlay(popTriangle.offset(x: 0, y: -popHeight/2-5))
     }
 }
 

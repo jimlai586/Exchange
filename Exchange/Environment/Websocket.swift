@@ -27,7 +27,7 @@ final class Websocket: ObservableObject, WebSocketDelegate {
             return
         }
         let j = JSON(json)
-        dp(j)
+        //dp(j)
         let e = j[P.e].stringValue
         switch e {
         case "aggTrade":
@@ -47,36 +47,49 @@ final class Websocket: ObservableObject, WebSocketDelegate {
             return
         }
         for a in j[P.a].arrayValue {
-            let v = a[1].doubleValue
-            askBook[a[0].doubleValue] = v == 0 ? nil : v
+            let v = a[1].decimalValue
+            askBook[a[0].decimalValue] = v == 0 ? nil : v
         }
         for b in j[P.b].arrayValue {
-            let v = b[1].doubleValue
-            bidBook[b[0].doubleValue] = v == 0 ? nil : v
+            let v = b[1].decimalValue
+            bidBook[b[0].decimalValue] = v == 0 ? nil : v
         }
+        refresh()
     }
-
+    let tradeListLimit = 10
+    @Published var tradeList = [MarketItem]()
+    var tradeListBuffer = [MarketItem]()
+    var tradeRefresh = false
     func aggTrade(_ j: JSON) {
-
+        //dp(j)
+        var pc = Color.bidGreen
+        if let last = tradeListBuffer.first, let lp = Decimal(string: last.price), let price = Decimal(string: j[P.p].stringValue) {
+            pc = price < lp ? .askRed : .bidGreen
+        }
+        tradeListBuffer.insert(MarketItem(j, pc), at: 0)
+        if tradeListBuffer.count > tradeListLimit {
+            tradeListBuffer.removeLast()
+        }
+        guard tradeRefresh == false else {return}
+        tradeRefresh = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.tradeList = self.tradeListBuffer
+            self.tradeRefresh = false
+        }
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        dp("data")
     }
 
-    func onReceive(_ s: inout String) {
-
-    }
-    
     static var baseUrl = "wss://stream.binance.com:9443"
     static var ethusdt = "/ws/ethusdt"
 
-    var snapshot = Json("https://www.binance.com/api/v1/depth?symbol=ETHUSDT&limit=100")
+    var snapshot = Json("https://www.binance.com/api/v1/depth?symbol=ETHUSDT&limit=20")
 
     @Published var decimalPlaces: Int?
 
-    var multiplier: Double {
-        decimalPlaces == nil ? 1 : pow(Double(10), Double(decimalPlaces!))
+    var multiplier: Decimal {
+        decimalPlaces == nil ? 1 : pow(10, decimalPlaces ?? 0)
     }
 
     var cancellable: AnyCancellable?
@@ -89,22 +102,31 @@ final class Websocket: ObservableObject, WebSocketDelegate {
         }
         return s
     }
-    var askBook = [Double: Double]()
-    var asks: [DepthItem] {
-        let newBook = askBook.reduce(into: [Double: Double]()) { (r, kv) in
-            let roundedKey = Double(Int(kv.key * multiplier)) / multiplier
+    func round(_ de: Decimal) -> Decimal {
+        var t = de
+        var r = Decimal()
+        NSDecimalRound(&r, &t, decimalPlaces ?? 4, .down)
+        return r
+    }
+
+    let displayLimit = 20
+
+    func getDepthItemList(from book: [Decimal: Decimal]) -> [DepthItem] {
+        let newBook = book.reduce(into: [Decimal: Decimal]()) { (r, kv) in
+            let roundedKey = round(kv.key)
             r[roundedKey, default: 0.0] += kv.value
-        }.mapValues { v in Double(Int(v * multiplier)) / multiplier }
+        }.mapValues { v in round(v)}
         return newBook.keys.sorted().map {DepthItem($0, newBook[$0, default: 0])}
     }
-    var bidBook = [Double: Double]()
+    var askBook = [Decimal: Decimal]()
+    var asks: [DepthItem] {
+        let items = getDepthItemList(from: askBook)
+        return items.count < displayLimit ? Array(items) : Array(items[0 ..< displayLimit])
+    }
+    var bidBook = [Decimal: Decimal]()
     var bids: [DepthItem] {
-        let newBook = bidBook.reduce(into: [Double: Double]()) { (r, kv) in
-            let roundedKey = Double(Int(kv.key * multiplier)) / multiplier
-            r[roundedKey, default: 0.0] += kv.value
-        }.mapValues { v in Double(Int(v * multiplier)) / multiplier }
-
-        return newBook.keys.sorted(by: >).map {DepthItem($0, newBook[$0, default: 0])}
+        let items = Array(getDepthItemList(from: bidBook).reversed())
+        return items.count < displayLimit ? items : Array(items[0 ..< displayLimit])
     }
     var buffer = [UID: JSON]()
     @Published var orderRows = [OrderRow]()
@@ -118,6 +140,7 @@ final class Websocket: ObservableObject, WebSocketDelegate {
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
                 dp("has network connection")
+                self.showNetworkAlert = false
                 self.open()
             } else {
                 dp("no connection")
@@ -140,7 +163,7 @@ final class Websocket: ObservableObject, WebSocketDelegate {
 
     func open() {
         reset()
-        //socket.connect()
+        socket.connect()
         cancellable = snapshot.onSuccess { json in
             dp(json)
             self.update(json)
@@ -156,25 +179,25 @@ final class Websocket: ObservableObject, WebSocketDelegate {
         bidBook = [:]
         decimalPlaces = 4
         for j in json[P.asks].arrayValue {
-            askBook[j[0].doubleValue] = j[1].doubleValue
+            askBook[j[0].decimalValue] = j[1].decimalValue
         }
         for j in json[P.bids].arrayValue {
-            bidBook[j[0].doubleValue] = j[1].doubleValue
+            bidBook[j[0].decimalValue] = j[1].decimalValue
         }
         let lid = json[P.lastUpdateId].intValue
         lastUpdateId = lid
         for k in buffer.keys {
             guard k.isLater(than: lid) else {continue}
             for j in buffer[k]![P.asks].arrayValue {
-                let price = j[0].doubleValue
-                let q = j[1].doubleValue
+                let price = j[0].decimalValue
+                let q = j[1].decimalValue
                 if askBook[price] == nil {
                     askBook[price] = q
                 }
             }
             for j in buffer[k]![P.bids].arrayValue {
-                let price = j[0].doubleValue
-                let q = j[1].doubleValue
+                let price = j[0].decimalValue
+                let q = j[1].decimalValue
                 if bidBook[price] == nil {
                     bidBook[price] = q
                 }
@@ -197,7 +220,7 @@ final class Websocket: ObservableObject, WebSocketDelegate {
             refreshInProgress = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.orderRows = self.newOrderRows
-                dp(self.orderRows)
+                //dp(self.orderRows)
                 self.refreshInProgress = false
             }
         }

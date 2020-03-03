@@ -116,6 +116,14 @@ public extension JSON {
             return 0
         }
     }
+    var decimalValue: Decimal {
+        switch self {
+        case .raw:
+            return Decimal(string: stringValue) ?? 0
+        default:
+            return 0
+        }
+    }
     var doubleValue: Double {
         switch self {
         case .raw(let x):

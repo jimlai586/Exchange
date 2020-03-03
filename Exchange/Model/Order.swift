@@ -20,14 +20,14 @@ struct DepthItem: CustomStringConvertible {
     }
 
     var price: String {
-        String(p)
+        NSDecimalNumber(decimal: p).stringValue
     }
     var quantity: String {
-        String(q)
+        NSDecimalNumber(decimal: q).stringValue
     }
-    let p: Double
-    let q: Double
-    init(_ p: Double, _ q: Double) {
+    let p: Decimal
+    let q: Decimal
+    init(_ p: Decimal, _ q: Decimal) {
         self.p = p
         self.q = q
     }
@@ -40,12 +40,12 @@ struct OrderRow: Identifiable {
     let aqRatio: Double
     let bqRatio: Double
 
-    init(_ a: DepthItem, _ b: DepthItem, _ aSum: Double, _ bSum: Double) {
+    init(_ a: DepthItem, _ b: DepthItem, _ aSum: Decimal, _ bSum: Decimal) {
         self.a = a
         self.b = b
         self.id = "\(a.p), \(b.p)"
         // magnify by 10 for visual effect, not accuracy
-        aqRatio = Double(Int(a.q * 1000 / aSum)) / 100
-        bqRatio = Double(Int(b.q * 1000 / bSum)) / 100
+        aqRatio = Double(truncating: (a.q / aSum) as NSNumber) * 10
+        bqRatio = Double(truncating: (b.q / bSum) as NSNumber) * 10
     }
 }

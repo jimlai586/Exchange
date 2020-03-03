@@ -19,7 +19,12 @@ class ExchangeTests: XCTestCase {
     }
 
     func testJSON() {
-        
+        let j = JSON([P.asks: 3.14])
+        assert(j[P.asks].stringValue == "3.14")
+        assert(j[P.asks].doubleValue == 3.14)
+        assert(j[P.asks].decimalValue == 3.14)
+        assert(j[P.asks].intValue == 0)
+
     }
     
 

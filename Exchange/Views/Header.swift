@@ -21,18 +21,18 @@ struct Header: View {
     var body: some View {
         HStack(spacing: 0) {
             HStack {
-                Text("Bid").foregroundColor(.gray).padding()
+                Text("Bid").foregroundColor(.headerGray).padding()
                 Spacer()
             }
             HStack {
-                Text("Ask").foregroundColor(.gray).padding()
+                Text("Ask").foregroundColor(.headerGray).padding()
                 Spacer()
                 VStack(alignment: .trailing) {
                     HStack(spacing: 5) {
                         if ws.decimalPlaces != nil {
-                            Button(String(1 / ws.multiplier)) {
+                            Button(NSDecimalNumber(decimal: 1 / ws.multiplier).stringValue) {
                                 self.shared.isPopover.toggle()
-                            }.foregroundColor(.white)
+                            }.foregroundColor(.rowWhite)
                             triangle
                         }
                     }.background(Color.pickerGray).padding()

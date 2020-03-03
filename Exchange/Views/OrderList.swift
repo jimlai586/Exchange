@@ -9,48 +9,26 @@
 import SwiftUI
 
 struct OrderList: View {
-    @State var data = ["test"]
     @EnvironmentObject var shared: SharedState
     @EnvironmentObject var ws: Websocket
-    var askList: some View {
-        List {
-            ForEach(ws.asks, id: \.price) { order in
-                HStack(alignment: .center) {
-                    Text(order.price).foregroundColor(.red)
-                    Spacer()
-                    Text(order.quantity).foregroundColor(.white).frame(alignment: .trailing)
-                }
-            }.listRowBackground(Color.black)
-        }
-    }
-    var bidList: some View {
-        List {
-            ForEach(ws.bids, id: \.price) { order in
-                HStack {
-                    Text(order.quantity).foregroundColor(.white)
-                    Spacer()
-                Text(order.price).foregroundColor(.green).frame(alignment: .trailing)
-                }
-            }.listRowBackground(Color.black)
-        }
-    }
+
     var orderList: some View {
-        List {
-            ForEach(ws.orderRows) { order in
-                HStack(spacing: 5) {
-                    HStack {
-                        Text(order.b.quantity).foregroundColor(.white)
-                        Spacer()
-                        Text(order.b.price).foregroundColor(.green).frame(alignment: .trailing)
-                    }
-                    HStack {
-                        Text(order.a.price).foregroundColor(.red)
-                        Spacer()
-                        Text(order.a.quantity).foregroundColor(.white).frame(alignment: .trailing)
-                    }
-                }.listRowBackground(self.rowBG(CGFloat(order.bqRatio), CGFloat(order.aqRatio)))
-            }
-        }
+            ScrollView(showsIndicators: true) {
+                ForEach(ws.orderRows) { order in
+                    HStack(alignment: .center, spacing: 5) {
+                        HStack {
+                            Text(order.b.quantity).foregroundColor(.rowWhite).padding(10)
+                            Spacer()
+                            Text(order.b.price).foregroundColor(.bidGreen).padding(10)
+                        }
+                        HStack {
+                            Text(order.a.price).foregroundColor(.askRed).padding(10)
+                            Spacer()
+                            Text(order.a.quantity).foregroundColor(.rowWhite).frame(alignment: .trailing).padding(10)
+                        }
+                    }.background(self.rowBG(CGFloat(order.bqRatio), CGFloat(order.aqRatio)))
+                }.frame(maxWidth: .infinity)
+            }.background(Color.black)
     }
     func rowBG(_ lratio: CGFloat, _ rratio: CGFloat) -> some View {
         GeometryReader { geo in
@@ -64,31 +42,17 @@ struct OrderList: View {
             }
         }
     }
+
     var body: some View {
-        ZStack {
-            Color.black
-            VStack(spacing: 0) {
-                Header()
-                /*
-                HStack(spacing: 0) {
-                    bidList
-
-                    if shared.isPopover {
-                        askList.overlay(Popover().offset(x: 5, y: -20).padding(), alignment: .topTrailing)
-                    }
-                    else {
-                        askList
-                    }
-                }
-                */
-                if shared.isPopover {
-                    orderList.overlay(Popover().offset(x: 5, y: -20).padding(), alignment: .topTrailing)
-                } else {
-                    orderList
-                }
-
+        VStack(spacing: 0) {
+            Header()
+            if shared.isPopover {
+                orderList.overlay(Popover().offset(x: 5, y: -20).padding(), alignment: .topTrailing)
+            } else {
+                orderList
             }
-        }
+
+        }.background(Color.black)
     }
 }
 
